@@ -1,5 +1,6 @@
 import pandas as pd
 import random
+import os
 
 # Fungsi untuk membuat Data Donor
 def generate_donor_data(n):
@@ -26,7 +27,6 @@ def generate_donor_data(n):
 def generate_receiver_data(n):
     data = []
     for i in range(n):
-        
         lat = round(random.uniform(-5.439174727052239, -5.37286637048833), 14)  # Koordinat di wilayah Bandar Lampung
         lon = round(random.uniform(105.20842398470758, 105.31416739581265), 14)
         
@@ -60,19 +60,32 @@ def generate_receiver_data(n):
         data.append(receiver)
     return pd.DataFrame(data)
 
-# Menghasilkan data
-donor_data = generate_donor_data(2000)  # 2000 data donor
-receiver_data = generate_receiver_data(2000)  # 2000 data penerima
+# Path untuk menyimpan file
+donor_file_path = 'machine_learning/datasets/raw_data/data_donor.csv'
+receiver_file_path = 'machine_learning/datasets/raw_data/data_receiver.csv'
 
-# Menyimpan data donor ke dalam file CSV
-donor_data.to_csv('machine_learning/datasets/raw_data/data_donor.csv', index=False)
+# Cek keberadaan file sebelum menulis ulang
+if not os.path.exists(donor_file_path):
+    donor_data = generate_donor_data(2000)  # 2000 data donor
+    donor_data.to_csv(donor_file_path, index=False)
+    print("Data donor dibuat dan disimpan.")
+else:
+    print("Data donor sudah ada. Tidak menimpa file yang ada.")
 
-# Menyimpan data penerima ke dalam file CSV
-receiver_data.to_csv('machine_learning/datasets/raw_data/data_receiver.csv', index=False)
+if not os.path.exists(receiver_file_path):
+    receiver_data = generate_receiver_data(2000)  # 2000 data penerima
+    receiver_data.to_csv(receiver_file_path, index=False)
+    print("Data penerima dibuat dan disimpan.")
+else:
+    print("Data penerima sudah ada. Tidak menimpa file yang ada.")
 
-# Menampilkan contoh data
-print("Contoh Data Donor:")
-print(donor_data.head())
+# Menampilkan contoh data jika file sudah ada
+if os.path.exists(donor_file_path):
+    donor_data = pd.read_csv(donor_file_path)
+    print("\nContoh Data Donor:")
+    print(donor_data.head())
 
-print("\nContoh Data Penerima:")
-print(receiver_data.head())
+if os.path.exists(receiver_file_path):
+    receiver_data = pd.read_csv(receiver_file_path)
+    print("\nContoh Data Penerima:")
+    print(receiver_data.head())
