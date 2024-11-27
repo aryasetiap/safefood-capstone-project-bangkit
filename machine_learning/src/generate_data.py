@@ -22,14 +22,14 @@ def generate_donor_data(num_donors):
 
         # Logika tambahan untuk kondisi 'tidak layak konsumsi'
         if kondisi_makanan == 'tidak layak konsumsi':
-            is_halal = False
-            is_for_child = False
-            is_for_elderly = False
+            is_halal_donor = False
+            is_for_child_donor = False
+            is_for_elderly_donor = False
             is_alergan = True
         else:
-            is_halal = random.choice([True, False])
-            is_for_child = random.choice([True, False])
-            is_for_elderly = random.choice([True, False])
+            is_halal_donor = random.choice([True, False])
+            is_for_child_donor = random.choice([True, False])
+            is_for_elderly_donor = random.choice([True, False])
             is_alergan = random.choice([True, False])
         
         donor_data.append([
@@ -39,9 +39,9 @@ def generate_donor_data(num_donors):
             lokasi_lat_penyumbang,
             lokasi_lon_penyumbang,
             kondisi_makanan,
-            is_halal,
-            is_for_child,
-            is_for_elderly,
+            is_halal_donor,
+            is_for_child_donor,
+            is_for_elderly_donor,
             is_alergan
         ])
         
@@ -67,14 +67,14 @@ def generate_receiver_data(num_receivers):
 
         # Logika tambahan untuk kondisi 'tidak layak konsumsi'
         if 'tidak layak konsumsi' in kondisi_makanan_diterima:
-            is_halal = False
-            is_for_child = False
-            is_for_elderly = False
+            is_halal_receiver = False
+            is_for_child_receiver = False
+            is_for_elderly_receiver = False
             is_alergan_free = False
         else:
-            is_halal = random.choice([True, False])
-            is_for_child = random.choice([True, False])
-            is_for_elderly = random.choice([True, False])
+            is_halal_receiver = random.choice([True, False])
+            is_for_child_receiver = random.choice([True, False])
+            is_for_elderly_receiver = random.choice([True, False])
             is_alergan_free = random.choice([True, False])
         
         status_penerima = random.choice(['mendesak', 'normal', 'tidak mendesak'])
@@ -87,18 +87,18 @@ def generate_receiver_data(num_receivers):
             lokasi_lon_penerima,
             frekuensi_menerima,
             kondisi_makanan_diterima,
-            is_halal,
-            is_for_child,
-            is_for_elderly,
+            is_halal_receiver,
+            is_for_child_receiver,
+            is_for_elderly_receiver,
             is_alergan_free,
             status_penerima
         ])
         
     return receiver_data
 
-# Mengenerate 5000 data untuk masing-masing donor dan penerima 
-donor_data = generate_donor_data(5000) 
-receiver_data = generate_receiver_data(5000) 
+# Mengenerate 100 data untuk masing-masing donor dan penerima 
+donor_data = generate_donor_data(100) 
+receiver_data = generate_receiver_data(100) 
 
 # Menyimpan data donor ke dalam CSV di folder 'raw'
 with open(os.path.join(raw_data_dir, 'data_donor.csv'), 'w', newline='') as f:
@@ -106,7 +106,7 @@ with open(os.path.join(raw_data_dir, 'data_donor.csv'), 'w', newline='') as f:
     writer.writerow([
         'id_penyumbang', 'makanan_disumbangkan', 'jumlah_disumbangkan', 
         'lokasi_lat_penyumbang', 'lokasi_lon_penyumbang', 'kondisi_makanan', 
-        'is_halal', 'is_for_child', 'is_for_elderly', 'is_alergan'
+        'is_halal_donor', 'is_for_child_donor', 'is_for_elderly_donor', 'is_alergan'
     ])
     writer.writerows(donor_data)
 
@@ -116,7 +116,7 @@ with open(os.path.join(raw_data_dir, 'data_penerima.csv'), 'w', newline='') as f
     writer.writerow([
         'id_penerima', 'makanan_dibutuhkan', 'jumlah_dibutuhkan', 
         'lokasi_lat_penerima', 'lokasi_lon_penerima', 'frekuensi_menerima', 
-        'kondisi_makanan_diterima', 'is_halal', 'is_for_child', 'is_for_elderly', 
+        'kondisi_makanan_diterima', 'is_halal_receiver', 'is_for_child_receiver', 'is_for_elderly_receiver', 
         'is_alergan_free', 'status_penerima'
     ])
     writer.writerows(receiver_data)
