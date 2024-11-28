@@ -100,7 +100,7 @@ def calculate_matching_score(donor, receiver):
     return score
 
 # Contoh untuk menggabungkan dan menghitung skor kecocokan
-def merge_and_calculate_scores(donor_df, receiver_df, threshold=0.7):
+def merge_and_calculate_scores(donor_df, receiver_df):
     combined_data = []
     
     # Iterasi untuk menghitung skor kecocokan untuk setiap pasangan donor-penerima
@@ -113,7 +113,6 @@ def merge_and_calculate_scores(donor_df, receiver_df, threshold=0.7):
                 **donor.to_dict(),    # Semua kolom dari data donor
                 **receiver.to_dict(), # Semua kolom dari data penerima
                 'matching_score': score,  # Tambahkan kolom skor
-                'is_matching': score >= threshold  # Boolean berdasarkan threshold
             }
             combined_data.append(combined_entry)
     
@@ -122,8 +121,11 @@ def merge_and_calculate_scores(donor_df, receiver_df, threshold=0.7):
 # Menggunakan fungsi di atas dengan dataset yang telah disiapkan
 donor_df = pd.read_csv('machine_learning/data/raw/data_donor.csv')
 receiver_df = pd.read_csv('machine_learning/data/raw/data_penerima.csv')
-matching_data = merge_and_calculate_scores(donor_df, receiver_df, threshold=0.7)
+matching_data = merge_and_calculate_scores(donor_df, receiver_df)
 
 # Mengubah hasil menjadi DataFrame dan menyimpannya ke file
 matching_df = pd.DataFrame(matching_data)
-matching_df.to_csv('machine_learning/data/processed/data_donor_recipient_labeled.csv', index=False)
+# Mengacak urutan data
+matching_df = matching_df.sample(frac=1).reset_index(drop=True)
+
+matching_df.to_csv('machine_learning/data/raw/data_donor_recipient_matching.csv', index=False)
