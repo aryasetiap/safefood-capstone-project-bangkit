@@ -108,6 +108,5 @@ receiver_df = pd.read_csv('machine_learning/data/raw/data_penerima.csv')
 matching_data = merge_and_calculate_scores(donor_df, receiver_df)
 
 matching_df = pd.DataFrame(matching_data)
-matching_df = matching_df.sample(frac=1).reset_index(drop=True)
 
-matching_df.to_csv('machine_learning/data/raw/data_donor_recipient_matching.csv', index=False)
+matching_df.to_csv('machine_learning/data/raw/ForCek_data_donor_recipient_matching.csv', index=False)
