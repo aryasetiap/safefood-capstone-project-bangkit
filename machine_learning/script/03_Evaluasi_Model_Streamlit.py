@@ -3,7 +3,7 @@ import pandas as pd
 import tensorflow as tf
 import numpy as np
 
-model = tf.keras.models.load_model('machine_learning/models/model_safefood_best.keras')
+model = tf.keras.models.load_model('machine_learning/models/fix/model_safefood_best.keras')
 
 def predict_matching_score(input_data):
     input_data = np.array(input_data)
